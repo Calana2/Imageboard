@@ -83,7 +83,10 @@ export async function GET(req: NextRequest){
     return NextResponse.json(object);
 
     default:
-     return new Error("Unknow board.");
+     return NextResponse.json({
+      status:"error",
+      message:'Board does not found',
+     });
   }
 
  } catch(error) {

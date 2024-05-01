@@ -74,7 +74,10 @@ export async function GET(req: NextRequest){
     return NextResponse.json(threads);
 
     default:
-     return new Error("Unknow board.");
+     return NextResponse.json({
+      status:"error",
+      message:'Board does not found',
+     });
   }
 
  } catch(error) {
@@ -82,6 +85,6 @@ export async function GET(req: NextRequest){
   return NextResponse.json({
    status:"error",
    message:`${error}`,
-  })
+  });
  }
 }
