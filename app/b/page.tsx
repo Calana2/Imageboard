@@ -25,7 +25,7 @@ export default function Page(){
   const object = await req.json();
 
   // Formatted date
-  object.forEach((object: threadFromDatabase) =>  { 
+  object?.forEach((object: threadFromDatabase) =>  { 
    object.date = new Date(object.date).toLocaleString().replaceAll(","," ");
   });
 
@@ -54,7 +54,7 @@ useEffect(()=>{
 
 
  return(
-  <main>
+  <main className="">
    <div className="flex flex-col gap-2">
 
     {/* Board Name */}
@@ -64,7 +64,7 @@ useEffect(()=>{
 
     <div className="flex justify-center text-lg font-semibold">
     {/* Create Thread Button */}
-     <button onClick={()=>{setThread(!thread)}}>
+     <button onClick={()=>{setThread(!thread)}} className="hover:text-white">
       Create Thread
      </button>
     </div>
@@ -79,11 +79,11 @@ useEffect(()=>{
     {/* Threads */}
    <div className="flex flex-col justify-center align-center gap-3 p-3">
    { threads ? threads.map((thread: threadFromDatabase,idx: number)=>
-    (<div key={idx} className="flex flex-col gap-5 p-2 bg-gray-400" style={{border:"2px solid black"}}>
+    (<div key={idx} className="flex flex-col gap-5 p-2 bg-gray-400 border-2 border-black">
        
        <div className="flex gap-2 flex-col md:flex-row">
        {/* Image */}
-      {thread.attached !== null ?
+      {thread.attached !== "" ?
         <div className="flex flex-col gap-3">
          <div className="relative w-full h-32 md:size-96 border-2 border-pink-600">
           <Image src={thread.attached} alt="img" fill={true} className="h-full"/>
@@ -95,15 +95,15 @@ useEffect(()=>{
 
         {/* Info */}
        <div>
-        <div className="flex flex-col break-all md:flex-row">
+        <div className="flex flex-col break-words md:flex-row md:text-lg">
          <span className="font-semibold p-4 text-base md:text-lg">{thread.title}</span>
-         <span className="p-4 text-sm font-semibold md:text-base">$ {thread.owner}</span>
+         <span className="p-4 text-sm font-semibold md:text-lg">$ {thread.owner}</span>
          <span className="p-4 text-sm md:text-base">{thread.date} (Local)</span>
          <span className="p-4 text-sm md:text-base">#{thread.id}</span>
         </div>
-        <div className={!isMobile ? 'bg-gray-300 border border-pink-300 text-lg' : ''}>
+        <div>
         { !isMobile ? (
-           <p dangerouslySetInnerHTML={{__html:thread.comment}} className="float-left">
+           <p className="bg-gray-300 md:text-lg p-2" dangerouslySetInnerHTML={{__html:thread.comment}}>
            </p>
           )
            : null
@@ -113,16 +113,16 @@ useEffect(()=>{
 
        </div> {/*el segundo div de threads*/}
 
-       <div className="p-4 break-all bg-black text-white md:text-black md:bg-gray-400">
+       <div className="p-4 break-words">
         { isMobile ? ( 
-           <p dangerouslySetInnerHTML={{__html:thread.comment}}>
+           <p className="p-1 bg-gray-300 rounded-md" dangerouslySetInnerHTML={{__html:thread.comment}}>
            </p>
           ) : null} 
        </div>
 
      <div className="flex justify-end">
       <div className="bg-gray-400 p-4 w-32 rounded-md">
-       <Link href={`/b/${thread.id}`}> 
+       <Link href={`/b/${thread.id}`} className="hover:text-white"> 
         Join Thread
        </Link>
       </div>

@@ -1,12 +1,14 @@
 export interface threadForm{
  name: null | string;
- title: null | string;
- comment: String;
+ title: string;
+ comment: string;
+ url: string;
 }
 
 export interface commentForm{
  name: null | string;
  comment: string;
+ url: string;
 }
 
 export interface threadFromDatabase{

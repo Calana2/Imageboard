@@ -1,7 +1,5 @@
 import { prisma } from '@/prisma/prisma'
-import { writeFile } from 'fs/promises';
 import { NextRequest, NextResponse } from 'next/server';
-import { join } from 'path';
 
 export async function POST(req: NextRequest){
   const formData = await req.formData();
@@ -9,23 +7,8 @@ export async function POST(req: NextRequest){
   const title = String(formData.get("title"));
   const comment = String(formData.get("comment"));
   const board = String(formData.get("board"));
-  const file = formData.get("file") as unknown as File;
-
+  const url = String(formData.get("url"));
  
-// Creating a file
-let url: string | null = null;
-if(file !== undefined && file !== null){
- const bytes = await file.arrayBuffer();
- const buffer = Buffer.from(bytes);
- const path = join(process.cwd(),"public/uploaded",file.name);
- url = `/uploaded/${file.name}`;
- try {
-  await writeFile(path,buffer);
- } catch(error) { 
-  console.log(error);
- } 
-}
-
  try {
   switch(board){
 
@@ -33,7 +16,7 @@ if(file !== undefined && file !== null){
     const creation = await prisma.bT.create({
      data:{
       owner: name,
-      title: title || null,
+      title: title,
       comment: comment,
       attached: url,
      },

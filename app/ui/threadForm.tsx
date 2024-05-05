@@ -1,6 +1,9 @@
 import {useContext, createContext, useState} from 'react';
 import {threadForm, threadContext} from '@/app/types/forms';
 import { useMediaQuery } from 'react-responsive';
+import { UploadButton } from '@uploadthing/react';
+import { OurFileRouter } from '../api/uploadthing/core';
+import { ClientUploadedFileData } from 'uploadthing/types';
 
 
 
@@ -8,8 +11,7 @@ export const ThreadContext = createContext<threadContext>({setThread:()=>{},boar
 
 export default function ThreadForm(){
 const {setThread, board, refresh, setRefresh} = useContext(ThreadContext);
-const [form,setForm] = useState<threadForm>({name:"anonymous",title:"",comment:""});
-const [file,setFile] = useState<File|undefined>(undefined);
+const [form,setForm] = useState<threadForm>({name:"anonymous",title:"",comment:"",url:""});
 const isMobile = useMediaQuery({maxWidth: 768});
 
 const onChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -23,7 +25,7 @@ const onChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTM
 
 const onSubmit = () => {
 // Problema aqui, al parecer un tipo File no puede enviarse en formato JSON, asi que usare formData
- const data = {...form,board,file};
+ const data = {...form,board};
  const formData = new FormData();
  let lineBreaker = data.comment.replaceAll('\n','<br/>');
 
@@ -32,11 +34,7 @@ const onSubmit = () => {
   formData.append("title", String(data.title));
   formData.append("comment", String(lineBreaker));
   formData.append("board", String(data.board));
-
-
-  if (file) {
-    formData.append("file", file);
-  }
+  formData.append("url", String(data.url));
 
  const request = async () => {
   try {
@@ -59,7 +57,7 @@ const onSubmit = () => {
 
  return(
   <div className="flex justify-center text-sm md:text-base">
-   <form className="flex flex-col gap-2 mt-10 p-5 w-72 md:w-1/3 bg-gray-400" style={{border:"2px solid black"}} action={onSubmit}>
+   <form className="flex flex-col gap-2 mt-10 p-5 w-72 md:w-1/3 bg-gray-400 rounded-md" style={{border:"2px solid black"}} action={onSubmit}>
     <div className="flex flex-col md:flex-row md:gap-5">
      <label htmlFor="name">Name:</label>
      <input type="text" 
@@ -93,10 +91,18 @@ const onSubmit = () => {
                onChange={onChange}
      />
     </div>
-      <input type="file"
-             name="file"
-             onChange={(e)=>setFile(e.target.files?.[0])}
-      />
+    <UploadButton<OurFileRouter,"imageUploader",false>
+        endpoint="imageUploader"
+        onClientUploadComplete={(res: ClientUploadedFileData<{uploadedBy:string}>[] ) => {
+          // Do something with the response
+          console.log("Files: ", res);
+          setForm(previous=>({...previous,url:res[0].url}));
+        }}
+        onUploadError={(error: Error) => {
+          // Do something with the error.
+          alert(`ERROR! ${error.message}`);
+        }}
+     />
     <div className="flex flex-row justify-between gap-2">
      <button type="button" 
       onClick={()=>setThread(false)}>

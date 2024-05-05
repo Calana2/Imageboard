@@ -51,7 +51,7 @@ return (
         </h1>
         <div className="flex justify-center text-lg font-semibold">
           {/* Create Comment Button */}
-          <button onClick={() => { setComment(!comment) }}>
+          <button onClick={() => { setComment(!comment) }} className="hover:text-white">
             Write a comment
           </button>
         </div>
@@ -61,17 +61,18 @@ return (
         </CommentContext.Provider>
       </div>
       {/* END OF DIV 1*/}
+      
 
-      <div className="flex flex-col justify-center align-center gap-3 p-3" style={{ border: "3px solid black" }}>
+      <div className="flex flex-col justify-center align-center gap-3 p-3">
         {thread ? (
           <div className="flex flex-col gap-5 p-2 bg-gray-400 border-2 border-black">
             <div className="flex gap-2 flex-col md:flex-row">
 
               {/* Image */}
-             {thread.attached !== null ?
+             {thread.attached !== "" ?
               <div className="flex flex-col gap-2">
-                <div className="relative w-full h-32 md:size-96 border-2 border-pink-600">
-                  <Image src={thread.attached} alt="img" fill={true} className="h-full" />
+                <div className="relative w-full h-32 md:size-96">
+                  <Image src={thread.attached} alt="img" fill={true} className="h-full"/>
                 </div>
                 <p className="text-center">{thread.attached.substring(thread.attached.lastIndexOf('/') + 1, thread.attached.length)}</p>
               </div>
@@ -81,23 +82,23 @@ return (
               {/* Info */}
               <div>
 
-                <div className="flex flex-col break-all md:flex-row">
+                <div className="flex flex-col break-words md:flex-row">
                   <span className="font-semibold p-4 text-base md:text-lg">{thread.title}</span>
                   <span className="p-4 text-sm font-semibold md:text-base">$ {thread.owner}</span>
                   <span className="p-4 text-sm md:text-base">{thread.date} (Local)</span>
                   <span className="p-4 text-sm md:text-base">#{thread.id}</span> 
                 </div>
 
-                <div className={!isMobile ? 'bg-gray-300 border border-pink-300 text-lg' : ''}>
+                <div className={!isMobile ? 'bg-gray-300 text-lg' : ''}>
                   { !isMobile ? (
-                   <p dangerouslySetInnerHTML={{__html:thread.comment}}>
+                   <p dangerouslySetInnerHTML={{__html:thread.comment}} className="p-2">
                    </p>
                   ) : null }
                 </div>
 
-       <div className="p-4 break-all bg-black text-white md:text-black md:bg-gray-400">
+       <div className="p-4 break-words md:bg-gray-400">
         { isMobile ? ( 
-                   <p dangerouslySetInnerHTML={{__html:thread.comment}}>
+                   <p dangerouslySetInnerHTML={{__html:thread.comment}} className="p-2 bg-gray-300 rounded-md">
                    </p>
           ) : null }
        </div>
@@ -117,9 +118,9 @@ return (
             <div className="flex gap-2 flex-col md:flex-row">
 
               {/* Image */}
-            {comment.attached !== null ?
+            {comment.attached !== "" ?
               <div className="flex flex-col gap-3">
-                <div className="relative w-full h-32 md:size-96 border-2 border-pink-600">
+                <div className="relative w-full h-32 md:size-96">
                   <Image src={comment.attached} alt="img" fill={true} className="h-full" />
                 </div>
                 <p className="text-center">{comment.attached.substring(comment.attached.lastIndexOf('/') + 1, comment.attached.length)}</p>
@@ -128,21 +129,21 @@ return (
                
                {/* TEXT */}
              <div className="flex flex-col">
-                <div className="flex flex-col break-all md:flex-row">
+                <div className="flex flex-col break-words md:flex-row">
                   <span className="p-4 text-sm font-semibold md:text-base">$ {comment.owner}</span>
                   <span className="p-4 text-sm md:text-base">{comment.date} (Local)</span>
                   <span className="p-4 text-sm md:text-base">#{comment.id}</span> 
                 </div>
 
-                <div className={!isMobile ? 'bg-gray-300 border border-pink-300 text-lg' : ''}>
+                <div className={!isMobile ? 'bg-gray-300 text-lg' : ''}>
                   { !isMobile ? (
-                   <p dangerouslySetInnerHTML={{__html:comment.comment}}>
+                   <p dangerouslySetInnerHTML={{__html:comment.comment}} className="p-2">
                    </p>) 
                   : null }
                 </div>
-       <div className="p-4 break-all bg-black text-white md:text-black md:bg-gray-400">
+       <div className="p-4 break-words">
         { isMobile ? ( 
-                   <p dangerouslySetInnerHTML={{__html:comment.comment}}>
+                   <p dangerouslySetInnerHTML={{__html:comment.comment}} className="p-2 rounded-md bg-gray-300">
                    </p>
           ) : null}
        </div>
