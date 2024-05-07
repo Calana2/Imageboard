@@ -9,12 +9,19 @@ export const metadata: Metadata = {
 export default function Layout({children} : {children: React.ReactNode}){ 
  return(
   <main className="">
-      <nav className="flex justify-around gap-4 w-full font-bold fixed z-50 bg-black text-white">
-       <Link href="/">Main</Link>
-       <Link href="/b">/b/</Link>
-      </nav>
-  <div className="p-10">
-   {children}
+  {/*DIV HILOS*/}
+  <div className="flex flex-col">
+       <nav className="fixed flex flex-col justify-center items-center gap-5 p-2 h-full font-bold z-50  text-white"
+        style={{
+                backgroundColor:"black"
+        }}
+       >
+        <Link href="/" className="hover:text-red-600">[Main]</Link>
+        <Link href="/b" className="hover:text-red-600">[/b]</Link>
+       </nav>
+   <div className="pt-5 pl-20">
+    {children}
+   </div>
   </div>
   </main>
  );

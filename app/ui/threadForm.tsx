@@ -57,7 +57,9 @@ const onSubmit = () => {
 
  return(
   <div className="flex justify-center text-sm md:text-base">
-   <form className="flex flex-col gap-2 mt-10 p-5 w-72 md:w-1/3 bg-gray-400 rounded-md" style={{border:"2px solid black"}} action={onSubmit}>
+   <form className="flex flex-col gap-2 mt-10 p-5 w-72 md:w-1/3 bg-gray-400 rounded-md border-2 border-black"
+   style={{backgroundColor: "#aaaacc",}}
+   action={onSubmit}>
     <div className="flex flex-col md:flex-row md:gap-5">
      <label htmlFor="name">Name:</label>
      <input type="text" 

@@ -41,7 +41,7 @@ useEffect(()=>{
 
 return (
   <main>
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4">  {/* DIV THREAD AND COMMENTS}
 
       {/* DIV 1*/}
       <div className="flex flex-col gap-2">
@@ -65,7 +65,7 @@ return (
 
       <div className="flex flex-col justify-center align-center gap-3 p-3">
         {thread ? (
-          <div className="flex flex-col gap-5 p-2 bg-gray-400 border-2 border-black">
+          <div className="flex flex-col gap-5 p-2 rounded-md" style={{backgroundColor:"#aaaacc"}}>
             <div className="flex gap-2 flex-col md:flex-row">
 
               {/* Image */}
@@ -82,23 +82,23 @@ return (
               {/* Info */}
               <div>
 
-                <div className="flex flex-col break-words md:flex-row">
+                <div className="flex flex-col break-all md:flex-row">
                   <span className="font-semibold p-4 text-base md:text-lg">{thread.title}</span>
                   <span className="p-4 text-sm font-semibold md:text-base">$ {thread.owner}</span>
                   <span className="p-4 text-sm md:text-base">{thread.date} (Local)</span>
                   <span className="p-4 text-sm md:text-base">#{thread.id}</span> 
                 </div>
 
-                <div className={!isMobile ? 'bg-gray-300 text-lg' : ''}>
+                <div className={!isMobile ? 'ml-10 text-lg rounded-md' : ''}>
                   { !isMobile ? (
                    <p dangerouslySetInnerHTML={{__html:thread.comment}} className="p-2">
                    </p>
                   ) : null }
                 </div>
 
-       <div className="p-4 break-words md:bg-gray-400">
+       <div className="p-4 break-all">
         { isMobile ? ( 
-                   <p dangerouslySetInnerHTML={{__html:thread.comment}} className="p-2 bg-gray-300 rounded-md">
+                   <p dangerouslySetInnerHTML={{__html:thread.comment}} className="p-2 rounded-md">
                    </p>
           ) : null }
        </div>
@@ -110,10 +110,12 @@ return (
       </div>
 
    {/* COMMENTS */}
-     <div className="flex flex-col justify-center align-center gap-3 p-3">
+     <div className="flex flex-col gap-3 p-3">
 
       {comments ? comments.map((comment: commentFromDatabase, idx: number) => ( 
-        <div key={idx} className="flex flex-col gap-5 p-2 bg-gray-400 border-2 border-black">
+        <div key={idx} className="flex flex-col gap-5 p-2 rounded-md"
+         style={{backgroundColor:"#aaaacc"}}
+        >
 
             <div className="flex gap-2 flex-col md:flex-row">
 
@@ -129,21 +131,21 @@ return (
                
                {/* TEXT */}
              <div className="flex flex-col">
-                <div className="flex flex-col break-words md:flex-row">
+                <div className="flex flex-col break-all md:flex-row">
                   <span className="p-4 text-sm font-semibold md:text-base">$ {comment.owner}</span>
                   <span className="p-4 text-sm md:text-base">{comment.date} (Local)</span>
                   <span className="p-4 text-sm md:text-base">#{comment.id}</span> 
                 </div>
 
-                <div className={!isMobile ? 'bg-gray-300 text-lg' : ''}>
+                <div className={!isMobile ? 'text-lg rounded-md' : ''}>
                   { !isMobile ? (
                    <p dangerouslySetInnerHTML={{__html:comment.comment}} className="p-2">
                    </p>) 
                   : null }
                 </div>
-       <div className="p-4 break-words">
+       <div className="p-4 break-all">
         { isMobile ? ( 
-                   <p dangerouslySetInnerHTML={{__html:comment.comment}} className="p-2 rounded-md bg-gray-300">
+                   <p dangerouslySetInnerHTML={{__html:comment.comment}} className="p-2 rounded-md">
                    </p>
           ) : null}
        </div>
@@ -153,7 +155,7 @@ return (
        ))
       : null}
      </div>
-    </div>
+    </div> {/* DIV THREAD AND COMMENTS */}
   <Institutional/>
   </main>
 );

@@ -27,7 +27,10 @@ export default function RootLayout({
       <head>
       <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
-      <body className="bg-gradient-to-r from-teal-50 to-slate-500">
+      <body style={{backgroundColor: "#009944", 
+                    backgroundAttachment: "fixed",
+
+                    }}>
        {children}
       </body>
     </html>

@@ -23,9 +23,8 @@ export default function Home() {
      <div className="rounded-lg p-1 top-1 right-2 absolute md:top-5 md:right-10 md:text-lg md:p-2 md:rounded-md bg-purple-600 font-bold hover:text-white" style={{boxShadow:"rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px"}}>
       <Link href="/rules"> Rules </Link>
      </div>
-
-     </div>
       <Institutional/>
+     </div>
     </main>
   );
 }

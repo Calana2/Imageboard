@@ -14,6 +14,7 @@ import Institutional from '@/app/ui/institutional';
 export default function Page(){
 // for the menu
  const [thread,setThread] = useState<boolean>(false); 
+ const [dbError,setDBError] = useState<boolean>(false);
  const board = "Random";
  const dataToSend = {board};
  const getParams = new URLSearchParams(dataToSend).toString();
@@ -23,6 +24,11 @@ export default function Page(){
    method:"GET",
   });
   const object = await req.json();
+
+  if(object.status === "error"){
+   setDBError(true);
+   return;
+  }
 
   // Formatted date
   object?.forEach((object: threadFromDatabase) =>  { 
@@ -58,7 +64,8 @@ useEffect(()=>{
    <div className="flex flex-col gap-2">
 
     {/* Board Name */}
-     <h1 className="text-3xl font-bold text-center">
+     <h1 className="text-4xl font-bold text-center pb-1"
+      style={{borderBottom:"0.5px solid"}}>
       /b/ - Random
      </h1>
 
@@ -69,6 +76,8 @@ useEffect(()=>{
      </button>
     </div>
 
+    { dbError && <div className="text-4xl text-bold">Database Error, Please Refresh</div>}
+
 
     {/* Create Thread Form */}
    <ThreadContext.Provider value={{setThread, board, refresh, setRefresh}}>
@@ -77,16 +86,20 @@ useEffect(()=>{
    </div>
 
     {/* Threads */}
-   <div className="flex flex-col justify-center align-center gap-3 p-3">
+   <div className="flex flex-col justify-center align-center gap-3 p-3 ">
    { threads ? threads.map((thread: threadFromDatabase,idx: number)=>
-    (<div key={idx} className="flex flex-col gap-5 p-2 bg-gray-400 border-2 border-black">
-       
+    (<div key={idx} className="flex flex-col gap-5 p-2 bg-gray-400 rounded-md border-2 border-black"
+    style={{boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+          }}
+     >
        <div className="flex gap-2 flex-col md:flex-row">
        {/* Image */}
       {thread.attached !== "" ?
-        <div className="flex flex-col gap-3">
-         <div className="relative w-full h-32 md:size-96 border-2 border-pink-600">
-          <Image src={thread.attached} alt="img" fill={true} className="h-full"/>
+        <div className="flex flex-col gap-3 items-start">
+         <div className="relative w-full h-32 md:size-96 border-2 border-black">
+          <Image src={thread.attached} alt="img" fill={true} 
+          className="h-full hover:cursor-pointer"
+          />
          </div>
          <p className="text-center">{thread.attached.substring(
                                      thread.attached.lastIndexOf('/')+1,thread.attached.lenght)}</p>
@@ -94,16 +107,17 @@ useEffect(()=>{
       : null }
 
         {/* Info */}
-       <div>
-        <div className="flex flex-col break-words md:flex-row md:text-lg">
-         <span className="font-semibold p-4 text-base md:text-lg">{thread.title}</span>
-         <span className="p-4 text-sm font-semibold md:text-lg">$ {thread.owner}</span>
-         <span className="p-4 text-sm md:text-base">{thread.date} (Local)</span>
-         <span className="p-4 text-sm md:text-base">#{thread.id}</span>
+       <div className="h-full">
+        <div className="flex flex-col break-all md:flex-row md:text-lg">
+         <span className="font-semibold p-3 text-base md:text-lg text-red-600">{thread.title}</span>
+         <span className="p-3 text-sm font-semibold md:text-lg text-blue-950"
+         >$ {thread.owner}</span>
+         <span className="p-4 text-sm md:text-base font-semibold">{thread.date} (Local)</span>
+         <span className="p-4 text-sm md:text-base font-semibold underline">#{thread.id}</span>
         </div>
-        <div>
+        <div className="overflow-visible">
         { !isMobile ? (
-           <p className="bg-gray-300 md:text-lg p-2" dangerouslySetInnerHTML={{__html:thread.comment}}>
+           <p className="ml-12 md:text-lg break-all" dangerouslySetInnerHTML={{__html:thread.comment}}>
            </p>
           )
            : null
@@ -113,16 +127,16 @@ useEffect(()=>{
 
        </div> {/*el segundo div de threads*/}
 
-       <div className="p-4 break-words">
         { isMobile ? ( 
-           <p className="p-1 bg-gray-300 rounded-md" dangerouslySetInnerHTML={{__html:thread.comment}}>
+       <div className="p-4 break-all">
+           <p className="" dangerouslySetInnerHTML={{__html:thread.comment}}>
            </p>
-          ) : null} 
        </div>
+          ) : null} 
 
      <div className="flex justify-end">
-      <div className="bg-gray-400 p-4 w-32 rounded-md">
-       <Link href={`/b/${thread.id}`} className="hover:text-white"> 
+      <div className="p-4 w-32 rounded-md bg-amber-500">
+       <Link href={`/b/${thread.id}`} className="hover:text-white font-semibold">
         Join Thread
        </Link>
       </div>
@@ -131,6 +145,7 @@ useEffect(()=>{
      </div>)
    ) : null }
    </div>
+
 
    <Institutional/>
   </main>
