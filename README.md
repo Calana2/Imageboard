@@ -1,9 +1,8 @@
 ## 23Chan Beta
 
-
-<h3 style="display:flex">Images</h3>
-<img src="public/board1.jpg" alt="b1.jpg"/>
-<img src="public/board2.jpg" alt="b2.jpg"/>
+<h3>Images</h3>
+<img src="public/board1.jpg" width="200" height="200" alt="b1.jpg"/>
+<img src="public/board2.jpg" width="200" height="200" alt="b2.jpg"/>
 
 
  A simple Imageboard, discontinued
