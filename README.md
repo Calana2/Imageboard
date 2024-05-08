@@ -2,8 +2,8 @@
 
 
 <h3 style="display:flex">Images</h3>
-<img src="client/board1.png" alt="loggin.png"/>
-<img src="client/board2.png" alt="signup.png"/>
+<img src="client/board1.jpg" alt="b1.jpg"/>
+<img src="client/board2.jpg" alt="b2.jpg"/>
 
 
  A simple Imageboard, discontinued
